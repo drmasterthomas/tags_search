@@ -1,0 +1,7 @@
+{
+  "prefix": "tagSearch",
+  "paths": {
+    "tagSearch": "."
+  },
+  "translations": ["translations/ja-JP.json"]
+}
