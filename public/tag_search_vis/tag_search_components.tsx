@@ -53,7 +53,7 @@ fetch(url).then(response => response.json()).then((a) => {
 	}
 });
 
-export class TagSearchComponent extends React.Component {
+export class TagsSearchComponent extends React.Component {
 
 	constructor(props) {
 		super(props);

@@ -6,11 +6,11 @@ import {
   Logger,
 } from '../../../src/core/server';
 
-import { TagSearchPluginSetup, TagSearchPluginStart } from './types';
+import { TagsSearchPluginSetup, TagsSearchPluginStart } from './types';
 import { defineRoutes } from './routes';
 
-export class TagSearchPlugin
-  implements Plugin<TagSearchPluginSetup, TagSearchPluginStart> {
+export class TagsSearchPlugin
+  implements Plugin<TagsSearchPluginSetup, TagsSearchPluginStart> {
   private readonly logger: Logger;
 
   constructor(initializerContext: PluginInitializerContext) {
@@ -18,7 +18,7 @@ export class TagSearchPlugin
   }
 
   public setup(core: CoreSetup) {
-    this.logger.debug('TagSearch: Setup');
+    this.logger.debug('TagsSearch: Setup');
     const router = core.http.createRouter();
 
     // Register server side APIs
@@ -28,7 +28,7 @@ export class TagSearchPlugin
   }
 
   public start(core: CoreStart) {
-    this.logger.debug('TagSearch: Started');
+    this.logger.debug('TagsSearch: Started');
     return {};
   }
 

@@ -1,4 +1,4 @@
-# TagSearch
+# TagsSearch
 
 A Kibana plugin
 

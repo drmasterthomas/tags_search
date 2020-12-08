@@ -1,4 +1,4 @@
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface TagSearchPluginSetup {}
+export interface TagsSearchPluginSetup {}
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface TagSearchPluginStart {}
+export interface TagsSearchPluginStart {}

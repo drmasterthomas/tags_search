@@ -18,15 +18,15 @@
  */
 import { CoreSetup, Plugin } from 'kibana/public';
 import { VisualizationsSetup } from '../../../../../src/plugins/visualizations/public';
-import { TagSearchEditor } from './tag_search_vis/tag_search_editor';
-import { TagSearchComponent } from './tag_search_vis/tag_search_components';
+import { TagsSearchEditor } from './tag_search_vis/tag_search_editor';
+import { TagsSearchComponent } from './tag_search_vis/tag_search_components';
 
 interface SetupDependencies {
   visualizations: VisualizationsSetup;
 }
 
-export class TagSearchPublicPlugin
-  implements Plugin<TagSearchSetup, TagSearchStart> {
+export class TagsSearchPublicPlugin
+  implements Plugin<TagsSearchSetup, TagsSearchStart> {
   public setup(core: CoreSetup, setupDeps: SetupDependencies) {
     setupDeps.visualizations.createReactVisualization({
       name: 'tag_search_vis',
@@ -35,7 +35,7 @@ export class TagSearchPublicPlugin
       description:
         'Tag Search visualization SLSDL',
       visConfig: {
-        component: TagSearchComponent,
+        component: TagsSearchComponent,
         defaults: {
           counter: 0,
         },
@@ -45,7 +45,7 @@ export class TagSearchPublicPlugin
           {
             name: 'options',
             title: 'Options',
-            editor: TagSearchEditor,
+            editor: TagsSearchEditor,
           },
         ],
       },
@@ -57,7 +57,7 @@ export class TagSearchPublicPlugin
   public stop() {}
 }
 
-export type TagSearchSetup = ReturnType<TagSearchPublicPlugin['setup']>;
-export type TagSearchStart = ReturnType<TagSearchPublicPlugin['start']>;
+export type TagsSearchSetup = ReturnType<TagsSearchPublicPlugin['setup']>;
+export type TagsSearchStart = ReturnType<TagsSearchPublicPlugin['start']>;
 
 

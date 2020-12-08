@@ -24,7 +24,7 @@ import {
   EuiFormRow,
 } from '@elastic/eui';
 
-export class TagSearchEditor extends React.Component {
+export class TagsSearchEditor extends React.Component {
 
   onCounterChange = (ev) => {
     return ev

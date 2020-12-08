@@ -1,11 +1,11 @@
 import { PluginInitializerContext } from '../../../src/core/server';
-import { TagSearchPlugin } from './plugin';
+import { TagsSearchPlugin } from './plugin';
 
 //  This exports static code and TypeScript types,
 //  as well as, Kibana Platform `plugin()` initializer.
 
 export function plugin(initializerContext: PluginInitializerContext) {
-  return new TagSearchPlugin(initializerContext);
+  return new TagsSearchPlugin(initializerContext);
 }
 
-export { TagSearchPluginSetup, TagSearchPluginStart } from './types';
+export { TagsSearchPluginSetup, TagsSearchPluginStart } from './types';
