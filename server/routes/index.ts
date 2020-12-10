@@ -1,5 +1,5 @@
 import { IRouter } from '../../../../src/core/server';
-import {GLOBAL_VARIABLES} from "../../../incident_review/server/routes/global_variables"; //импорт глобальнных переменных
+import {GLOBAL_VARIABLES} from "../../../incidents_review/server/routes/global_variables"; //импорт глобальнных переменных
 
 export function defineRoutes(router: IRouter) {
   router.get(
