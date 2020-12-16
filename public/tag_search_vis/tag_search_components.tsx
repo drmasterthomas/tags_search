@@ -28,19 +28,19 @@ let rawtags = []
 const url='/slsdl/api/tag_search/get_tags'
 
 fetch(url).then(response => response.json()).then((a) => {
-	for(var w=0;w<a.hits.hits.length;w++){
-		rawtags.push(a.hits.hits[w])
-		if(Array.isArray(a.hits.hits[w]._source.tag)){
+	for(var w=0;w<a.body.hits.hits.length;w++){
+		rawtags.push(a.body.hits.hits[w])
+		if(Array.isArray(a.body.hits.hits[w]._source.tag)){
 			"do nothing"
 		} else {
-			a.hits.hits[w]._source.tag = a.hits.hits[w]._source.tag.replace(/\s/gi,"")
-			a.hits.hits[w]._source.tag = a.hits.hits[w]._source.tag.split(",")
+			a.body.hits.hits[w]._source.tag = a.body.hits.hits[w]._source.tag.replace(/\s/gi,"")
+			a.body.hits.hits[w]._source.tag = a.body.hits.hits[w]._source.tag.split(",")
 		}
 	}
 
-	for(var s=0;s<a.hits.hits.length;s++){
-		for(var i=0;i<a.hits.hits[s]._source.tag.length;i++){
-			arr3.push(a.hits.hits[s]._source.tag[i])
+	for(var s=0;s<a.body.hits.hits.length;s++){
+		for(var i=0;i<a.body.hits.hits[s]._source.tag.length;i++){
+			arr3.push(a.body.hits.hits[s]._source.tag[i])
 		}
 	}
 
@@ -163,19 +163,19 @@ export class TagsSearchComponent extends React.Component {
 		allOptions = []
 
 		fetch(url).then(response => response.json()).then((a) => {
-			for(var w=0;w<a.hits.hits.length;w++){
-				rawtags.push(a.hits.hits[w])
-				if(Array.isArray(a.hits.hits[w]._source.tag)){
+			for(var w=0;w<a.body.hits.hits.length;w++){
+				rawtags.push(a.body.hits.hits[w])
+				if(Array.isArray(a.body.hits.hits[w]._source.tag)){
 					"do nothing"
 				} else {
-					a.hits.hits[w]._source.tag = a.hits.hits[w]._source.tag.replace(/\s/gi,"")
-					a.hits.hits[w]._source.tag = a.hits.hits[w]._source.tag.split(",")
+					a.body.hits.hits[w]._source.tag = a.body.hits.hits[w]._source.tag.replace(/\s/gi,"")
+					a.body.hits.hits[w]._source.tag = a.body.hits.hits[w]._source.tag.split(",")
 				}
 			}
 
-			for(var s=0;s<a.hits.hits.length;s++){
-				for(var i=0;i<a.hits.hits[s]._source.tag.length;i++){
-					arr3.push(a.hits.hits[s]._source.tag[i])
+			for(var s=0;s<a.body.hits.hits.length;s++){
+				for(var i=0;i<a.body.hits.hits[s]._source.tag.length;i++){
+					arr3.push(a.body.hits.hits[s]._source.tag[i])
 				}
 			}
 

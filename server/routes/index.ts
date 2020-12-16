@@ -8,12 +8,12 @@ export function defineRoutes(router: IRouter) {
       validate: false,
     },
     async (context, request, response) => {
-			const res = context.core.elasticsearch.client.asCurrentUser.search({
+			const res = await context.core.elasticsearch.client.asCurrentUser.search({
 				'index': GLOBAL_VARIABLES.TAGS_ALIAS,
 				'q':'_id:*',
         'size':'10000'
 			})
-			
+			console.log(res)
       return response.ok({
         body: res
       });
