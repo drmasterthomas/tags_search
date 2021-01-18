@@ -125,8 +125,8 @@ export class TagsSearchComponent extends React.Component {
 		delete risonedURL["_a"].viewMode
 		delete risonedURL["_a"].timeRestore
 		var encoded = rison.encode_object(risonedURL)
-		const dashboardID = currentURL.match(/dashboard\/(.*?)\?/gi)[0].split("/")[1].replace(/\?/,"")
-		var result = "/slsdl/s/kt/app/kibana#/dashboard/" + dashboardID + "?" + encoded.replace(/\,_g:/g,"&_g=").replace(/\_a:/g,'_a=')
+		const dashboardID = currentURL.match(/dashboards#\/view\/(.*?)\?/gi)[0].split("/")[2].replace(/\?/,"")
+		var result = "/slsdl/s/kt/app/dashboards#/view/" + dashboardID + "?" + encoded.replace(/\,_g:/g,"&_g=").replace(/\_a:/g,'_a=')
 		window.location.replace(result)
 	};
 
