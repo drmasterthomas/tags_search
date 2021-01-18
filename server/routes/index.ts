@@ -13,7 +13,6 @@ export function defineRoutes(router: IRouter) {
 				'q':'_id:*',
         'size':'10000'
 			})
-			console.log(res)
       return response.ok({
         body: res
       });
