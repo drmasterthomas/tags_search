@@ -20,7 +20,7 @@
 import React, { Component } from 'react';
 import { EuiComboBox, EuiFlexGroup, EuiFlexItem, EuiFormRow } from '@elastic/eui';
 import rison from 'rison-node';
-//import styles from './styles.css';
+import styles from './styles.css';
 
 let allOptions = []
 let arr3 = [];
@@ -207,9 +207,9 @@ export class TagsSearchComponent extends React.Component {
 		const { selectedOptions } = this.state;
 
 		return (
-			<EuiFlexGroup className="tag_search">
+			<EuiFlexGroup className="tagSearch" style={{maxWidth:"310px", maxHeight: "98px"}}>
 					<EuiFlexItem>
-						<EuiFormRow label="Поиск по тегу">
+						<EuiFormRow label="Поиск по тегу" style={{marginTop: "8px"}}>
 								<EuiComboBox
 							placeholder="Select..."
 							options={this.options}
