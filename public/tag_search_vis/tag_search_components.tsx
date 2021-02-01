@@ -57,7 +57,6 @@ export class TagsSearchComponent extends React.Component {
 
 	constructor(props) {
 		super(props);
-
 		this.options = []
 		this.state = {
 			selectedOptions: [],
@@ -193,19 +192,21 @@ export class TagsSearchComponent extends React.Component {
 	componentDidMount() {
 		this.options = allOptions
 		this.props.renderComplete()
+		this.setState({
+			options: [{label:""}]
+		})
 	}
 	
 	componentDidUpdate(prevProps , prevState) {
     this.props.renderComplete();
-  }
+	}
 
 	componentWillReceiveProps(nextProps){
     this.props.renderComplete();
-  }
+	}
 	
 	render() {
 		const { selectedOptions } = this.state;
-
 		return (
 			<EuiFlexGroup className="tagSearch" style={{maxWidth:"310px", maxHeight: "98px"}}>
 					<EuiFlexItem>
