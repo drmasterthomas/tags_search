@@ -16,18 +16,20 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { CoreSetup, Plugin } from 'kibana/public';
-import { VisualizationsSetup } from '../../../../../src/plugins/visualizations/public';
+import { CoreSetup, Plugin, CoreStart } from 'kibana/public';
 import { TagsSearchEditor } from './tag_search_vis/tag_search_editor';
 import { TagsSearchComponent } from './tag_search_vis/tag_search_components';
+import {
+  TagsSearchPluginSetup,
+  TagsSearchPluginStart,
+  AppPluginStartDependencies,
+  AppPluginSetuoDependencies,
+} from './types';
 
-interface SetupDependencies {
-  visualizations: VisualizationsSetup;
-}
 
 export class TagsSearchPublicPlugin
-  implements Plugin<TagsSearchSetup, TagsSearchStart> {
-  public setup(core: CoreSetup, setupDeps: SetupDependencies) {
+  implements Plugin<TagsSearchSetup, TagsSearchStart, AppPluginStartDependencies> {
+  public setup(core: CoreSetup<AppPluginStartDependencies>, setupDeps: AppPluginSetuoDependencies) {
     setupDeps.visualizations.createReactVisualization({
       name: 'tag_search_vis',
       title: 'Tag Search Vis SLSDL',
@@ -53,7 +55,7 @@ export class TagsSearchPublicPlugin
     });
   }
 
-  public start() {}
+  public start(core: CoreStart): TagsSearchPluginStart {}
   public stop() {}
 }
 

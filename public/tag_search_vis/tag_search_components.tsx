@@ -17,10 +17,12 @@
  * under the License.
  */
 
-import React, { Component } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import { EuiComboBox, EuiFlexGroup, EuiFlexItem, EuiFormRow } from '@elastic/eui';
 import rison from 'rison-node';
-import styles from './styles.css';
+import {
+	DataPublicPluginStart,
+} from '../../../../src/plugins/data/public';
 
 let allOptions = []
 let arr3 = [];
@@ -53,83 +55,66 @@ fetch(url).then(response => response.json()).then((a) => {
 	}
 });
 
-export class TagsSearchComponent extends React.Component {
+const optionsStatic = [
+	{
+		label: 'Titan',
+		'data-test-subj': 'titanOption',
+	},
+	{
+		label: 'Enceladus is disabled',
+		disabled: true,
+	},
+	{
+		label: 'Mimas',
+	},
+	{
+		label: 'Dione',
+	},
+	{
+		label: 'Iapetus',
+	},
+	{
+		label: 'Phoebe',
+	},
+	{
+		label: 'Rhea',
+	},
+	{
+		label:
+			"Pandora is one of Saturn's moons, named for a Titaness of Greek mythology",
+	},
+	{
+		label: 'Tethys',
+	},
+	{
+		label: 'Hyperion',
+	},
+];
 
-	constructor(props) {
-		super(props);
-		this.options = []
-		this.state = {
-			selectedOptions: [],
-			options: []
-		};
-	}
+interface TagsSearchComponentDeps {
+	renderComplete: () => {};
+	visParams: {
+		counter: number;
+	};
+	data: DataPublicPluginStart
+}
 
-	onChange = (selectedOptions) => {
-		this.setState({
-			selectedOptions,
-		});
+export const TagsSearchComponent = (props: TagsSearchComponentDeps) => {
 
-		const currentURL = decodeURI(window.location.href)
-		const filters = currentURL.split("?")[1].replace(/\=/g,":").replace(/\)&/g,"),")
-		const risonedURL = rison.decode_object(filters)
-		risonedURL["_a"].filters = []
 
-		for(var i=0;i<selectedOptions.length;i++){
-			const customFilter = {
-				"$state": {
-					"store": "appState"
-				},
-				"meta": {
-					"alias": "tag",
-					"disabled": false,
-					"index": "4486e920-1a66-11ea-a64d-2f0bd2a2bed6",
-					"key": "query",
-					"negate": false,
-					"type": "custom",
-					"value": {
-						"query": {
-							"bool": {
-								"should": [],
-								"minimum_should_match": 1
-							}
-						}
-					}
-				},
-				"query": {
-					"bool": {
-						"minimum_should_match": 1,
-						"should": []
-					}
-				}
-			}
-			for(var j=0;j<rawtags.length;j++){
-				selectedOptions.filter(a=> {
-					if(rawtags[j]._source.tag.includes(a.label)){
-						customFilter.meta.value.query.bool.should.push({
-							"term": { [rawtags[j]._source.key]: rawtags[j]._source.value }
-						})
-						customFilter.query.bool.should = customFilter.meta.value.query.bool.should;
-					}
-				})
-			}
+	useEffect(() => {
+		props.renderComplete();
+	});
 
-			risonedURL["_a"].filters.push(customFilter)
-		}
+	const [options, setOptions] = useState(optionsStatic);
+	const [selectedOptions, setSelected] = useState([options[2], options[4]]);
 
-		risonedURL['_a'].description = {}
-		delete risonedURL["_a"].panels
-		delete risonedURL["_a"].options
-		delete risonedURL["_a"].fullScreenMode
-		delete risonedURL["_a"].title
-		delete risonedURL["_a"].viewMode
-		delete risonedURL["_a"].timeRestore
-		var encoded = rison.encode_object(risonedURL)
-		const dashboardID = currentURL.match(/dashboards#\/view\/(.*?)\?/gi)[0].split("/")[2].replace(/\?/,"")
-		var result = "/slsdl/s/kt/app/dashboards#/view/" + dashboardID + "?" + encoded.replace(/\,_g:/g,"&_g=").replace(/\_a:/g,'_a=')
-		window.location.replace(result)
+	const onChange = (selectedOptions) => {
+		setSelected(selectedOptions);
+		console.log("FILTERS:: ", props.data.query.filterManager.getFilters())
 	};
 
-	onCreateOption = (searchValue, flattenedOptions) => {
+	const onCreateOption = (searchValue, flattenedOptions = []) => {
 		const normalizedSearchValue = searchValue.trim().toLowerCase();
 
 		if (!normalizedSearchValue) {
@@ -141,88 +126,28 @@ export class TagsSearchComponent extends React.Component {
 		};
 
 		// Create the option if it doesn't exist.
-		if (flattenedOptions.findIndex(option =>
-			option.label.trim().toLowerCase() === normalizedSearchValue
-		) === -1) {
-			this.options.push(newOption);
+		if (
+			flattenedOptions.findIndex(
+				(option) => option.label.trim().toLowerCase() === normalizedSearchValue
+			) === -1
+		) {
+			setOptions([...options, newOption]);
 		}
+
 		// Select the option.
-		this.setState(prevState => ({
-			selectedOptions: prevState.selectedOptions.concat(newOption),
-		}));
+		setSelected([...selectedOptions, newOption]);
 	};
 
-	onClick = (el) => {
-		this.options = allOptions
-	}
-
-	componentWillUpdate(){
-		rawtags = []
-		arr3 = []
-		allOptions = []
-
-		fetch(url).then(response => response.json()).then((a) => {
-			for(var w=0;w<a.body.hits.hits.length;w++){
-				rawtags.push(a.body.hits.hits[w])
-				if(Array.isArray(a.body.hits.hits[w]._source.tag)){
-					"do nothing"
-				} else {
-					a.body.hits.hits[w]._source.tag = a.body.hits.hits[w]._source.tag.replace(/\s/gi,"")
-					a.body.hits.hits[w]._source.tag = a.body.hits.hits[w]._source.tag.split(",")
-				}
-			}
-
-			for(var s=0;s<a.body.hits.hits.length;s++){
-				for(var i=0;i<a.body.hits.hits[s]._source.tag.length;i++){
-					arr3.push(a.body.hits.hits[s]._source.tag[i])
-				}
-			}
-
-			let uniq = [...new Set(arr3)];
-
-			for(var i=0;i<uniq.length;i++){
-				allOptions.push({
-					label: uniq[i]
-				})
-			}
-		});
-		this.options = allOptions
-		this.props.renderComplete()
-	}
-	componentDidMount() {
-		this.options = allOptions
-		this.props.renderComplete()
-		this.setState({
-			options: [{label:""}]
-		})
-	}
-	
-	componentDidUpdate(prevProps , prevState) {
-    this.props.renderComplete();
-	}
-
-	componentWillReceiveProps(nextProps){
-    this.props.renderComplete();
-	}
-	
-	render() {
-		const { selectedOptions } = this.state;
-		return (
-			<EuiFlexGroup className="tagSearch" style={{maxWidth:"310px", maxHeight: "98px"}}>
-					<EuiFlexItem>
-						<EuiFormRow label="Поиск по тегу" style={{marginTop: "8px"}}>
-								<EuiComboBox
-							placeholder="Select..."
-							options={this.options}
-							selectedOptions={selectedOptions}
-							isClearable={true}
-							onChange={this.onChange}
-							onCreateOption={this.onCreateOption}
-							onClick={this.onClick}
-							/>
-							</EuiFormRow>
-					</EuiFlexItem>
-			</EuiFlexGroup>
+	return (
+		/* DisplayToggles wrapper for Docs only */
+			<EuiComboBox
+				placeholder="Select or create options"
+				options={options}
+				selectedOptions={selectedOptions}
+				onChange={onChange}
+				onCreateOption={onCreateOption}
+				isClearable={true}
+				data-test-subj="demoComboBox"
+			/>
 	);
-	}
-}
+};
