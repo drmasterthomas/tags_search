@@ -23,6 +23,7 @@ import rison from 'rison-node';
 import {
 	DataPublicPluginStart,
 } from '../../../../src/plugins/data/public';
+import { getData } from '../services';
 
 let allOptions = []
 let arr3 = [];
@@ -96,10 +97,10 @@ interface TagsSearchComponentDeps {
 	visParams: {
 		counter: number;
 	};
-	data: DataPublicPluginStart
 }
 
 export const TagsSearchComponent = (props: TagsSearchComponentDeps) => {
+	const data = getData();
 
 
 	useEffect(() => {
@@ -111,7 +112,7 @@ export const TagsSearchComponent = (props: TagsSearchComponentDeps) => {
 
 	const onChange = (selectedOptions) => {
 		setSelected(selectedOptions);
-		console.log("FILTERS:: ", props.data.query.filterManager.getFilters())
+		console.log("FILTERS:: ", data.query.filterManager.getFilters())
 	};
 
 	const onCreateOption = (searchValue, flattenedOptions = []) => {
