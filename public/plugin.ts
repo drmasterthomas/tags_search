@@ -25,6 +25,7 @@ import {
   AppPluginStartDependencies,
   AppPluginSetuoDependencies,
 } from './types';
+import { setData } from './services';
 
 
 export class TagsSearchPublicPlugin
@@ -55,7 +56,9 @@ export class TagsSearchPublicPlugin
     });
   }
 
-  public start(core: CoreStart): TagsSearchPluginStart {}
+  public start(core: CoreStart, plugins: any): TagsSearchPluginStart {
+    setData(plugins.data);
+  }
   public stop() {}
 }
 
